@@ -4,6 +4,10 @@ import rootRoute from '@routes/index';
 import errorHandler from './expressError';
 import expressNotFound from './expressNotFound';
 import expressLogger from './expressLogger';
+
+import { getDb } from '@dao/models/connMongoDb';
+
+
 const createServer = () => {
   const app = express();
   app.use(express.urlencoded({ extended: true }));
@@ -14,6 +18,9 @@ const createServer = () => {
   app.use('/', rootRoute);
   app.use(expressNotFound);
   app.use(errorHandler);
+  getDb().then(_db=>{
+    console.log('Connection established');
+  });
   return app;
 };
 
